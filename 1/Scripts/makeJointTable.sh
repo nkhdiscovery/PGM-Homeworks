@@ -4,7 +4,6 @@ export DB=test.db
 
 mkdir joints temp 2>/dev/null
 querySorted=$(echo $1 | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g' )
-echo "$querySorted"
 
 rm -rf ./joints/"$1.joint"
 rm -rf ./joints/"$querySorted.joint"
