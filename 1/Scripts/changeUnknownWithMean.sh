@@ -14,7 +14,8 @@ do
     echo "Mean for column $i is $mean ...."
     cat "$FILE_NAME" | cut -d$char_delim -f$i | sed "s/"$char_unknown"/$mean/g" >> "./tmp_$i.col"
 done
-paste -d $char_delim `ls *.col  | sort -V` > "$FILE_NAME".result
+#Paste and remove zero points
+paste -d $char_delim `ls *.col  | sort -V` | sed "s/\.[0]*"$char_delim"/"$char_delim"/g" | sed "s/\.[0]*$//g" > "$FILE_NAME".result
 
 rm -rf ./tmp_file
 rm -rf ./*.col
