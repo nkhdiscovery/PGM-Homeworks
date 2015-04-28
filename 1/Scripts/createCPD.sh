@@ -2,6 +2,7 @@ export queryVar=`echo $1 | cut -d'|' -f1`
 export conditions=`echo "$1" | cut -d'|' -f2 | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g'`
 DB="$2"
 varsDefine="$3"
+varsDIR="$4"
 
 if [[ -e ./CPD/"$queryVar-$conditions".cpd ]]
 then
@@ -9,21 +10,24 @@ then
     exit 0
 fi
 
+echo "Making CPD for ($queryVar|$conditions) "
+
 mkdir ./CPD/ 2> /dev/null
 rm -rf ./CPD/"$queryVar-$conditions".cpd
 
-./makeJointTable.sh "$conditions" "$DB" "$varsDefine"
-./makeJointTable.sh "$queryVar,$conditions" "$DB" "$varsDefine" #sorting will be handled there
+./makeJointTable.sh "$conditions" "$DB" "$varsDefine" "$varsDIR"
 
-echo "Making CPD for ($queryVar|$conditions) "
+#sorting will be handled there
+./makeJointTable.sh "$queryVar,$conditions" "$DB" "$varsDefine" "$varsDIR"
+
 sortedAll=`echo $queryVar,$conditions | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g' `
 
 qIndex=`echo $sortedAll | tr ',' ' ' | grep -o ".*$queryVar" | wc -w`
 
 
-queryValues="`cat $queryVar.var | tr ',' '\n' `"
+queryValues="`cat $varsDIR/$queryVar.var | tr ',' '\n' `"
 
-for i in `./combineVars.sh $sortedAll`
+for i in `./combineVars.sh $sortedAll $varsDIR`
 do
     pJointAll=`./probQuery.sh "$sortedAll" "$i"`
     conDitionValue=`echo $i | cut -d, -f$qIndex --complement`

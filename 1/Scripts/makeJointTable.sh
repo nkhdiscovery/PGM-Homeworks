@@ -2,6 +2,8 @@ declare -A columnMap
 
 export DB="$2"
 varsDefine="$3"
+varsDIR="$4"
+
 mkdir joints temp 2>/dev/null
 querySorted=$(echo $1 | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g' )
 
@@ -33,4 +35,4 @@ do
     count=`grep "$jointEvent" ./temp/"$querySorted.cut" | wc -l| cut -d' ' -f1`
     echo -n "$jointEvent" >> ./joints/"$querySorted.joint"
     printf " %.9f\n" "$(echo "$count/$total" | bc -l)" >>  ./joints/"$querySorted.joint"
-done < <(./combineVars.sh $querySorted | tr ' ' '\n' )
+done < <(./combineVars.sh $querySorted $varsDIR | tr ' ' '\n' )

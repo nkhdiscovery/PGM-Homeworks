@@ -7,6 +7,7 @@ vars=`cat $1 | cut -d':' -f1`
 DB="$2"
 BN="$3"
 varsDefine="$1"
+varsDIR="$4"
 
 rm -rf ./temp/ ./CPD/ ./joints/ 
 isPrior()
@@ -20,7 +21,7 @@ do
     if [[ -z $(isPrior $var) ]]   
     then
         echo "$var is prior ..."
-       ./makeJointTable.sh $var "$DB" "$varsDefine"
+       ./makeJointTable.sh "$var" "$DB" "$varsDefine" "$varsDIR"
     fi
 done
 
@@ -28,5 +29,5 @@ while read edge
 do
     child=`echo $edge | cut -d' ' -f2`
     parent=`echo $edge | cut -d' ' -f1`
-    ./createCPD.sh "$child|$parent" "$DB" "$varsDefine"
+    ./createCPD.sh "$child|$parent" "$DB" "$varsDefine" "$varsDIR"
 done < "$BN"
