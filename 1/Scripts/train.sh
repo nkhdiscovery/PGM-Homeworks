@@ -19,6 +19,7 @@ for var in $vars
 do
     if [[ -z $(isPrior $var) ]]   
     then
+        echo "$var is prior ..."
        ./makeJointTable.sh $var "$DB" "$varsDefine"
     fi
 done
