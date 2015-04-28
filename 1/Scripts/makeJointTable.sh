@@ -5,8 +5,16 @@ export DB=test.db
 mkdir joints temp 2>/dev/null
 querySorted=$(echo $1 | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g' )
 
-rm -rf ./joints/"$1.joint"
+if [[ -e ./joints/"$1.joint" ]]
+then
+    exit 0
+fi
+
+
+echo "Making joint probability of $querySorted ..." 
+
 rm -rf ./joints/"$querySorted.joint"
+rm -rf ./temp/*
 
 # see which columns are queried to find their joint
 while read a

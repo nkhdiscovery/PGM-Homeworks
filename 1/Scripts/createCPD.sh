@@ -1,10 +1,18 @@
 export queryVar=`echo $1 | cut -d'|' -f1`
 export conditions=`echo "$1" | cut -d'|' -f2 | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g'`
+
+if [[ -e ./CPD/"$queryVar-$conditions".cpd ]]
+then
+    echo "CPD for ($queryVar|$conditions) exists ... skipping"
+    exit 0
+fi
+
 mkdir ./CPD/ 2> /dev/null
 rm -rf ./CPD/"$queryVar-$conditions".cpd
 
 ./makeJointTable.sh "$conditions"
 ./makeJointTable.sh "$queryVar,$conditions" #sorting will be handled there
+echo "Making CPD for ($queryVar|$conditions) "
 sortedAll=`echo $queryVar,$conditions | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g' `
 
 qIndex=`echo $sortedAll | tr ',' ' ' | grep -o ".*$queryVar" | wc -w`
