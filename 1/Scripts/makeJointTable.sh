@@ -1,7 +1,7 @@
 declare -A columnMap
 
-export DB=test.db
-
+export DB="$2"
+varsDefine="$3"
 mkdir joints temp 2>/dev/null
 querySorted=$(echo $1 | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g' )
 
@@ -19,7 +19,7 @@ rm -rf ./temp/*
 # see which columns are queried to find their joint
 while read a
 do 
-    columnMap[$a]="`grep $a ./vars.define | cut -d':' -f2`" ;
+    columnMap[$a]=$(grep "$a" "$varsDefine" | cut -d':' -f2)
     cols="$cols,${columnMap[$a]}"
 done < <(echo $querySorted | tr ',' '\n' | sort -g) 
 cols=`echo $cols | sed 's/^,//g'`

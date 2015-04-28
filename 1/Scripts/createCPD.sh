@@ -1,5 +1,7 @@
 export queryVar=`echo $1 | cut -d'|' -f1`
 export conditions=`echo "$1" | cut -d'|' -f2 | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g'`
+DB="$2"
+varsDefine="$3"
 
 if [[ -e ./CPD/"$queryVar-$conditions".cpd ]]
 then
@@ -10,8 +12,9 @@ fi
 mkdir ./CPD/ 2> /dev/null
 rm -rf ./CPD/"$queryVar-$conditions".cpd
 
-./makeJointTable.sh "$conditions"
-./makeJointTable.sh "$queryVar,$conditions" #sorting will be handled there
+./makeJointTable.sh "$conditions" "$DB" "$varsDefine"
+./makeJointTable.sh "$queryVar,$conditions" "$DB" "$varsDefine" #sorting will be handled there
+
 echo "Making CPD for ($queryVar|$conditions) "
 sortedAll=`echo $queryVar,$conditions | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g' `
 
