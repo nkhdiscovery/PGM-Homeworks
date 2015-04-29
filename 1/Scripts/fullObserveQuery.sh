@@ -11,7 +11,7 @@ tempcond=`echo $fullQ | cut -d'|' -f2`
 cond="`echo ${tempcond%=*}`"
 originalCondVal="`echo ${tempcond#*=}`"
 condVal="$5"
-echo "original $cond:$originalCondVal"
+#echo "original $cond:$originalCondVal"
 sigma=0
 nominator=0
 for i in `cat $varsDIR/$cond.var | tr ',' '\n' `
@@ -33,7 +33,8 @@ do
     #echo Pi: $py
     #echo sigma: $sigma
 done
-printf "%.9f\n" "$(echo "$nominator/$sigma" | bc -l )"
+printf "%.9f " "$(echo "$nominator/$sigma" | bc -l )"
+echo "original:$originalCondVal"
 
 
 

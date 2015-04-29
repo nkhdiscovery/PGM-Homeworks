@@ -3,7 +3,7 @@
 ##  pair-sort query and value
 ##
 
-p=`grep "$2" ./joints/"$1.joint" | cut -d' ' -f2 `
+p=`cat ./joints/"$1.joint" |  awk -F' ' '{ if ($1 == "'"$2"'") print $0 }' | cut -d' ' -f2 `
 if [[ -z "$p" ]]
 then 
     >&2 echo "Warning, no entry for $2 in $1.joint ... considering epsilon = 0.000000001"

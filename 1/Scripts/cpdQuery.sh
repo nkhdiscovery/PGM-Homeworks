@@ -1,2 +1,2 @@
 cpd="$1"
-grep "$2" "$cpd" | cut -d' ' -f2
+cat $cpd |  awk -F' ' '{ if ($1 == "'"$2"'") print $0 }' | cut -d' ' -f2 
