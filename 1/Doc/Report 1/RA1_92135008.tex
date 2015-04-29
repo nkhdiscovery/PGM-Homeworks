@@ -1,0 +1,157 @@
+\listfiles
+
+\documentclass[11.5pt,a4paper]{article}
+
+\usepackage{amsthm,amssymb,amsmath}
+
+\usepackage{mathtools}
+
+\newcommand\persiangloss[2]{#1\dotfill\lr{#2}\\}
+
+\newcommand{\nocontentsline}[3]{}
+\newcommand{\tocless}[2]{\bgroup\let\addcontentsline=\nocontentsline#1{#2}\egroup}
+\usepackage[bottom]{footmisc}
+\usepackage{indentfirst}
+
+\usepackage{caption}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{tablefootnote}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{yfonts}
+
+\usepackage[scr=euler,bb=ams]{mathalfa}
+
+\usepackage{xcolor,colortbl}
+\definecolor{Gray}{gray}{0.90}
+\definecolor{LGray}{gray}{0.95}
+
+\usepackage[pagebackref=false,colorlinks,linkcolor=blue,citecolor=magenta]{hyperref}
+
+\usepackage{xepersian}
+\settextfont[Scale=1]{Persian Modern}
+\setlatintextfont[Scale=1]{Latin Modern Roman}
+
+%\settextfont[Scale=1.1]{B Zar}
+
+%\DefaultMathsDigits
+%\setdigitfont{Yas}
+
+\defpersianfont\titr[Scale=1]{B Titr}
+%\defpersianfont\nastaliq[Scale=1.5]{IranNastaliq}
+%\defpersianfont\traffic[Scale=1]{B Traffic}
+%\defpersianfont\yekan[Scale=1]{B Yekan}
+%\defpersianfont\traffic[Scale=1]{XB Roya}
+%\defpersianfont\yekan[Scale=1]{XB Kayhan}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{zref-perpage}
+\zmakeperpage{footnote}
+
+
+\begin{document}
+
+\thispagestyle{empty}
+\vspace*{-28mm}
+\centerline{\includegraphics[height=5cm]{logo.png}}
+
+\begin{center}
+%دستوری برای کم کردن فاصله بین لوگو و خط پایین آن
+\vspace{-2mm}
+{\large
+گروه مستقل مهندسی رباتیک
+%دستوری برای تعیین فاصله بین دو خط
+\\[2.1cm]
+}
+
+{\large
+\textbf{گزارش تمرین اول درس مدل‌های احتمالاتی گرافی}
+\\[2cm]
+
+استاد درس:
+\\[.5cm]
+{\Large
+دکتر نیک‌آبادی}
+\\[1.5cm]
+\large 
+تدریس‌یار:
+\\[.5cm]
+{\Large
+مهندس طاهرخانی}
+\\[1.5cm]
+
+\large 
+نام دانشجو:
+\\[.5cm]
+{\Large
+نوید خزاعی}
+\\[.5cm]
+۹۲۱۳۵۰۰۸
+\\[1.5cm]
+}
+%دستوری برای تعیین فاصله بین خطوط (نه دو خط) و تا وقتی که مقدار آن تغییر نکند، فاصله بین خطوط، همین مقدار است.
+
+{\large
+اردیبهشت ۹۴
+}
+\end{center}
+
+\newpage
+\baselineskip=1cm
+\tocless\tableofcontents
+
+\newpage
+\baselineskip=0.75cm
+\pagenumbering{arabic}
+\section{سوال‌های نظری}
+\subsection{سوال اول}
+قضیه زیر را اثبات کنید: 
+\begin{latin}
+\lr{
+\emph{Theorem 1. Let $\mathcal{G}$ be a Bayesian Network structure over a set of random variables $\mathcal{X}$ and let $\mathit{P}$ be a joint distribution over $\mathcal{X}$. If $\mathit{P}$ factorizes according to $\mathcal{G}$, then $\mathcal{G}$ is an  $\mathit{I}$-map for $\mathit{P}$}.}
+\end{latin}
+
+پاسخ: 
+
+با توجه به این که $\mathit{P}$ روی گراف $\mathcal{G}$ فاکتورایز می‌شود، پس می‌دانیم که: 
+\begin{equation}
+P (X_1 , \dots , X_n ) = \prod_{i=1}^n P (X_i \ | \ \text{\lr{Pa}}(X_i )),
+\label{eq1}
+\end{equation}
+
+که در آن 
+$\mathit{\text{\lr{Pa}}(X_i)}$ 
+والدین متغیر تصادفی 
+$\mathit{i}$
+م هستند. برای آن که نشان‌دهیم گراف $\mathcal{G}$ یک 
+\lr{ $\mathit{I}$-$\mathit{map}$}
+برای 
+$\mathit{P}$
+است، باید نشان‌دهیم 
+$\mathit{I}(\mathcal{G}) \subseteq \mathit{I}(\mathcal{P})$
+. با توجه به آن‌چه در درس آمده بود، اگر مجموعه روابط استقلال 
+$\mathit{I}(\mathcal{G})$
+را به‌گونه‌ای با استفاده از نتایج فرمول \ref{eq1} نشان‌ دهیم، یعنی این روابط از روابط استقلال توزیع مورد نظر استخراج شده‌اند پس زیرمجموعه‌ی آن نیز هستند. برای این کار، با توجه به این که مجموعه روابط استقلال در گراف ایجاب می‌کند که: 
+\begin{equation}
+\lbrace X_{i} \perp \text{\lr{ND}}(X_{i}) \ | \ \text{Pa}(X_i); i = 1, \dots , n \rbrace
+\label{eq2}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{سوال دوم}
+\end{document} 

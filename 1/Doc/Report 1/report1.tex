@@ -1,0 +1,191 @@
+
+\listfiles
+
+\documentclass[11.5pt,a4paper]{article}
+
+\usepackage{amsthm,amssymb,amsmath}
+
+\usepackage{mathtools}
+
+\newcommand\persiangloss[2]{#1\dotfill\lr{#2}\\}
+
+\newcommand{\nocontentsline}[3]{}
+\newcommand{\tocless}[2]{\bgroup\let\addcontentsline=\nocontentsline#1{#2}\egroup}
+\usepackage[bottom]{footmisc}
+\usepackage{indentfirst}
+
+\usepackage{caption}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{tablefootnote}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{yfonts}
+
+\usepackage[scr=euler,bb=ams]{mathalfa}
+
+\usepackage{xcolor,colortbl}
+\definecolor{Gray}{gray}{0.90}
+\definecolor{LGray}{gray}{0.95}
+
+\usepackage[pagebackref=false,colorlinks,linkcolor=blue,citecolor=magenta]{hyperref}
+
+\usepackage{xepersian}
+%\settextfont[Scale=1.1]{B Zar}
+
+%\DefaultMathsDigits
+%\setdigitfont{Yas}
+
+\defpersianfont\titr[Scale=1]{B Titr}
+%\defpersianfont\nastaliq[Scale=1.5]{IranNastaliq}
+%\defpersianfont\traffic[Scale=1]{B Traffic}
+%\defpersianfont\yekan[Scale=1]{B Yekan}
+%\defpersianfont\traffic[Scale=1]{XB Roya}
+%\defpersianfont\yekan[Scale=1]{XB Kayhan}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{zref-perpage}
+\zmakeperpage{footnote}
+
+
+\begin{document}
+
+\thispagestyle{empty}
+\vspace*{-28mm}
+\centerline{\includegraphics[height=5cm]{logo.png}}
+
+\begin{center}
+%دستوری برای کم کردن فاصله بین لوگو و خط پایین آن
+\vspace{-2mm}
+{\large
+گروه مستقل مهندسی رباتیک
+%دستوری برای تعیین فاصله بین دو خط
+\\[2.1cm]
+}
+
+{\large
+\textbf{گزارش مطالعاتی اول درس یادگیری ماشین آماری}
+\\[2cm]
+
+استاد درس:
+\\[.5cm]
+{\Large
+دکتر نیک‌آبادی}
+\\[1.5cm]
+\large 
+تدریس‌یار:
+\\[.5cm]
+{\Large
+مهندس کامکار}
+\\[1.5cm]
+
+\large 
+نام دانشجو:
+\\[.5cm]
+{\Large
+نوید خزاعی}
+\\[.5cm]
+۹۲۱۳۵۰۰۸
+\\[1.5cm]
+}
+%دستوری برای تعیین فاصله بین خطوط (نه دو خط) و تا وقتی که مقدار آن تغییر نکند، فاصله بین خطوط، همین مقدار است.
+
+{\large
+آبان ۱۳۹۳
+}
+\end{center}
+
+\newpage
+\tocless\tableofcontents
+\newpage 
+%دستوری برای رفتن به صفحه جدید
+\newpage
+\baselineskip=0.75cm
+\pagenumbering{arabic}
+\section{مقدمه}
+در این گزارش، به مطالعه‌ی بخش‌های 1.4.1 تا ۱.۴.۶ کتاب «یادگیری ماشین: نگاهی احتمالاتی» نوشته‌ی مورفی\LTRfootnote{ Murphy - Machine Learning A Probabilistic Perspective}
+پرداختیم که در این بخش‌ها، مفاهیم پایه‌ای از یادگیری ماشین مطرح نموده‌است. 
+
+مدل‌های یادگیری، به دو دسته‌ی با نظارت و بدون نظارت تقسیم شده‌اند که مدل احتمالاتی در دسته‌ی اول به صورت
+$p(y|x)$
+و در دسته‌ی دوم به صورت
+$p(x)$
+در نظر گرفته می‌شود. ویژگی مهمی که در مدل‌های احتمالاتی وجود دارد، آن است که تعداد پارامترهای مدل ثابت است، یا با زیاد کردن تعداد داده‌های آموزشی، افزایش پیدا کند. به مدل‌هایی که تعداد پارامترهای ثابت دارند، مدل‌های پارامتری، و به دسته‌ی دیگر، مدل‌های غیر پارامتری گفته می‌شود. مدل‌های پارامتری به سرعت و به راحتی قابل استفاده هستند، اما تصمیمات سختی در مورد توزیع داده‌ها می‌گیرند. مدل‌های غیر پارامتری، انعطاف‌پذیری بیشتری دارند، اما در به کارگیری از نظر پیچیدگی محاسباتی مشکل‌زا هستند. 
+\section{\lr{K} نزدیک‌ترین همسایگی}
+روش \lr{K} نزدیک‌ترین همسایگی یک مثال ساده‌ از مدل‌های غیر پارامتری است که برای دسته‌بندی، به \lr{K} نزدیک‌ترین نقطه‌ به ورودی در فضای آموزش نگاه می‌کند. این مدل در کتاب به صورت زیر معرفی شده‌است:
+\begin{equation}
+\label{eq1}
+p(y=c|\text{\textbf{\lr{x}}},\mathcal{D},K) = {1 \over K} \sum_{i \in{N_{K}(\text{\textbf{\lr{x}}},\mathcal{D})} } \mathbb{I}(y_i = c )
+\end{equation}
+
+که در آن
+ $N_{K}(\text{\textbf{\lr{x}}},\mathcal{D})$
+ اندیس‌های 
+ $K$
+ نزدیک‌ترین نقاط به بردار ورودی 
+\textbf{\lr{x}}
+را در فضای داده‌های آموزشی 
+$\mathcal{D}$
+می‌دهد. 
+$\mathbb{I}$
+نیز تابع نشان‌گر است که در صورت درست بودن شرط ورودی
+$y_i = c$
+، یک و در صورت غلط بودن آن، صفر می‌شود. با این تعریف، عدد محاسبه‌شده در فرمول \ref{eq1}، به سمت دسته‌ای که تعداد بیشتری از نقاط همسایگی در آن قرار دارند، کشیده می‌شود. 
+
+برای محاسبه‌ی فاصله‌ی نقاط آموزشی تا داده‌ی ورودی، می‌توان از روش‌های مختلفی استفاده نمود که ساده‌ترین آن فاصله‌ی اقلیدسی است. در صورتی که
+ $K=1$
+ باشد، به حالت خاص ورونویی می‌رسیم که تنها نزدیک‌ترین داده دیده می‌شود و دسته‌ی داده‌ی ورودی را مشخص می‌کند. 
+ 
+ اما مشکلی به نام نفرین ابعاد در این مدل یادگیری مطرح است، که در فضاهای با ابعاد بیشتر مانند $D$ بعد، اگر بخواهیم کسر مطلوب $f$ از نقاط آموزشی داخل همسایگی داده‌ی ورودی قرار گیرند، و این همسایگی را با یک ابر مکعب $D$ بعدی نشان‌دهیم، برای آن‌ که حجم این ابرمکعب برابر با $f$ باشد، باید اضلاع آن طول موثری برابر با 
+ $f^{1 / D}$
+ داشته‌باشند تا با رسیدن به توان $D$ حجم مطلوب $f$ را ارایه‌ دهند. با عددگذاری برای در نظر گرفتن تنها 1\% از داده‌ها در فضای ده‌بعدی، طول ضلع موثر برابر 63\% به‌دست می‌آید. پس چندان به همسایگی دقت نمی‌شود و برای دسته‌بندی، در حال استفاده از نقاطی در بازه‌ای بیش از نیمی از طول بازه‌ی داده‌های آموزشی هستیم که مسلما در دسته‌بندی، تصمیم‌گیری درستی نخواهد بود. 
+ راه حل این مشکل آن است که فرض‌هایی در مورد توزیع داده‌ها در نظر گرفته‌شود که به آن‌ها بایاس استنتاجی\LTRfootnote{ Inductive Bias} گفته می‌شود. این فرض‌ها در یک مدل پارامتری، که تعداد پارامترهایش ثابت است، گنجانده می‌شوند. 
+ \section{رگرسیون خطی}
+ از مدل‌های معروف رگرسیون، رگرسیون خطی است که ادعا می‌کند جواب تخمین، تابعی خطی از ورودی است و آن را به شکل زیر تعریف می‌کنند:
+\begin{equation}
+\label{eq2}
+y(\text{\textbf{\lr{x}}})= {\text{\textbf{\lr{w}}}}^{T}{\text{\textbf{\lr{x}}}} + \epsilon = \sum^{D}_{j=1}{w_j x_j } + \epsilon
+\end{equation}
+که در آن 
+${\text{\textbf{\lr{w}}}}^{T}{\text{\textbf{\lr{x}}}}$
+حاصل‌ضرب داخلی بردار وزن‌های مدل و بردار ورودی است. همچنین
+ $\epsilon$
+  خطای مازاد بین مدل و پاسخ واقعی است که توزیع نرمال 
+  $\mathcal{N}(\mu , \sigma^2)$
+  برایش در نظر گرفته می‌شود. با این تفسیر، می‌توان \ref{eq2} را به صورت زیر نوشت:
+  \begin{equation}
+  \label{eq3}
+  p(y| \text{\textbf{\lr{x}}}, \boldsymbol{\theta}) = \mathcal{N}(y|\mu (\text{\textbf{\lr{x}}}), \sigma^2(\text{\textbf{\lr{x}}}))
+  \end{equation}
+  که 
+  $\mu (\text{\textbf{\lr{x}}})$
+  در ساده‌ترین حالت، برای یک بعد خواهیم داشت 
+   $\mu (\text{\textbf{\lr{x}}})= w_0 + w_1 x$
+   که یک تابع خطی از
+    $\text{\textbf{\lr{x}}}$
+    است و
+     $w_0$
+     عبارت بایاس نامیده می‌شود. نویز ثابت  
+    $\sigma^2(\text{\textbf{\lr{x}}})=\sigma^2$
+    در نظر گرفته می‌شود و
+    $\boldsymbol{\theta}=(\text{\textbf{\lr{w}}},\sigma^2)$ 
+    پارامترهای مدل است. توصیف فرمول \ref{eq3} آن است که تقریب ما از $y$، یک خط است که برای مثال یک بعد، اگر شیب 
+    $w_1>0$
+    باشد، با افزایش ورودی، خروجی نیز زیاد می‌شود و این خط، با واریانس 
+    $\sigma^2$
+    در فضای داده‌های ورودی به صورت یک رویه با سطح مقطع زنگوله‌ای قرار گرفته‌است. 
+    
+    حال می‌توان 
+    $\text{\textbf{\lr{x}}}$
+    را با یک تابع غیرخطی مانند 
+    $\phi(\text{\textbf{\lr{x}}})$
+    جاگزین نمود تا روابط غیر خطی با ورودی مدل شوند. برای نمونه اگر
+    $\phi(\text{\textbf{\lr{x}}}) = [1, x , x^2 , \dots  , x^d ]$
+    باشد، آن را رگرسیون چند جمله‌ای می‌گویند. در این جا انتخاب $d$ که درجه‌ی چندجمله‌ای است، نقش به‌سزایی در \lr{Overfit} یا \lr{Underfit} شدن تقریب بر روی داده‌های فضای آموزشی دارد. 
+ 
+
+
+
+\end{document} 
