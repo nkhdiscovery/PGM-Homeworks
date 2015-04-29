@@ -17,7 +17,7 @@ then
     exit 0
 fi
 
-#echo "Making CPD for ($queryVar|$sortedCon) "
+echo "Making CPD for ($queryVar|$sortedCon) "
 
 mkdir ./CPD/ 2> /dev/null
 rm -rf ./CPD/"$queryVar-$sortedCon"-$qIndex.cpd

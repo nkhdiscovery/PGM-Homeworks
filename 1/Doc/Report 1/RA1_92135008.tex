@@ -39,7 +39,7 @@
 %\settextfont[Scale=1.1]{B Zar}
 
 %\DefaultMathsDigits
-%\setdigitfont{Yas}
+\setdigitfont{Persian Modern}
 
 \defpersianfont\titr[Scale=1]{B Titr}
 %\defpersianfont\nastaliq[Scale=1.5]{IranNastaliq}
@@ -106,7 +106,7 @@
 \newpage
 \baselineskip=0.75cm
 \pagenumbering{arabic}
-\section{سوال‌های نظری}
+\section{بخش نظری}
 \subsection{سوال اول}
 قضیه زیر را اثبات کنید: 
 \begin{latin}
@@ -136,22 +136,100 @@ $\mathit{I}(\mathcal{G}) \subseteq \mathit{I}(\mathcal{P})$
 $\mathit{I}(\mathcal{G})$
 را به‌گونه‌ای با استفاده از نتایج فرمول \ref{eq1} نشان‌ دهیم، یعنی این روابط از روابط استقلال توزیع مورد نظر استخراج شده‌اند پس زیرمجموعه‌ی آن نیز هستند. برای این کار، با توجه به این که مجموعه روابط استقلال در گراف ایجاب می‌کند که: 
 \begin{equation}
-\lbrace X_{i} \perp \text{\lr{ND}}(X_{i}) \ | \ \text{Pa}(X_i); i = 1, \dots , n \rbrace
+\lbrace X_{i} \perp \text{\lr{ND}}(X_{i}) \ | \ \text{\lr{Pa}}(X_i); i = 1, \dots , n \rbrace
 \label{eq2}
 \end{equation}
 
+که در آن
+$\text{\lr{ND}}(X_{i})$
+مجموعه‌ی غیرنسل\LTRfootnote{ Non-descendant} متغیر 
+$\mathit(X_{i})$
+است. اگر بتوانیم نشان‌دهیم که :
+\begin{equation}
+P(X_{i} \ | \ \text{\lr{ND}}(X_{i})) =  P(X_{i} \ | \ \text{\lr{Pa}}(X_i))
+\label{eq3}
+\end{equation}
+آن‌گاه رابطه‌ی استقلال \ref{eq2} برقرار است. برای این‌کار 
+$P(X_{i} \ | \ \text{\lr{ND}}(X_{i}))$
+را محاسبه می‌کنیم (نسل 
+$X_i$
+با 
+$\text{\lr{D}}(X_i)$
+نشان داده شده‌است) : 
+\begin{spreadlines}{15pt}  
+\begin{equation}
+\begin{split}
+{P(X_{i} \ | \ \text{\lr{ND}}(X_{i}))} & = {{P(X_{i} , \text{\lr{ND}}(X_{i}))} \over {P(\text{\lr{ND}}(X_{i}))} } = { {\sum_{\text{\lr{D}}(X_i)} P(X_1 , \dots , X_n)} \over {\sum_{X_i , \text{\lr{D}}(X_i)} P(X_1 , \dots , X_n)} } \\ 
+	& = { {\sum_{\text{\lr{D}}(X_i)} \prod_{j=1}^{n}P(X_j\ | \ {\text{\lr{Pa}}(X_j)})} \over {\sum_{X_i, \text{\lr{D}}(X_i) } \prod_{j=1}^{n}P(X_j\ | \ {\text{\lr{Pa}}(X_j)})} }
+\end{split}
+\label{eq4}
+\end{equation}
+\end{spreadlines}
+در \ref{eq4} در محاسبه‌ی سیگما، مواردی هستند که جزو نسل 
+$X_i$
+نیستند، پس می‌توان آن‌ها را از سیگمای روی نسل آن خارج نمود. همچنین آن‌چه باقی می‌ماند:
+\begin{equation*}
+{\sum_{\text{\lr{D}}(X_i)} \ \prod_{X_j \in {\text{\lr{D}}(X_i)}}P(X_j\ | \ {\text{\lr{Pa}}(X_j)})} = 1
+\end{equation*}
 
+مشابه همین استدلال برای مخرج نیز پاسخ‌گو است، لذا خواهیم داشت: 
+\begin{spreadlines}{15pt}  
+\begin{equation}
+\begin{split}
+\phantom{nothing} & = { {\prod_{X_j \in ( \text{\lr{ND}}(X_i) \cup X_i ) } P(X_j \ | \ \text{\lr{Pa}}(X_j)) \times 1 } \over {\prod_{X_j \in \text{\lr{ND}}(X_i) } P(X_j \ | \ \text{\lr{Pa}}(X_j)) \times 1 } } \\
+	& = P(X_i \ | \ \text{\lr{Pa}}(X_i) ).
+\end{split}
+\end{equation}
+\end{spreadlines}
 
-
-
-
-
-
-
-
-
-
-
+پس نشان‌دادیم \ref{eq3} و در نتیجه \ref{eq2} برقرار است، پس می‌توان نتیجه گرفت که $\mathit{I}(\mathcal{G}) \subseteq \mathit{I}(\mathcal{P})$، و حکم اثبات می‌شود. 
 
 \subsection{سوال دوم}
+با توجه به شبکه‌ی شکل \ref{fig1} به سوالات پاسخ داده شده‌است.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{4}
+\caption{شکل سوال دوم}
+\label{fig1}
+\end{figure}
+
+\subsubsection{توزیع توام}
+
+$P(X_1, \dots , X_7) = P(X_1)P(X_3 \ | \ X_1)P(X_2 \ | \ X_3)P(X_5 \ | \ X_2)P(X_6 \ | \ X_2)P(X_4 \ | \ X_3 , X_7)P(X_7)$
+
+\subsubsection{درستی و نادرستی}
+
+\begin{itemize}
+\item{$X_1 \perp X_5 \ | \ X_2 $}:
+درست است. اگر 
+$X_2$
+را بدانیم مسیر فعال بین $X_1$ و $X_5$ غیر فعال می‌شود و مستقل می‌شوند.
+\item{$X_2 \perp X_7 \ | \ X_4 $}:
+نادرست است. در ساختار وی-شکل بین $X_7$ و $X_3$ با دانستن $X_4$ وابستگی ایجاد می‌شود، و چون $X_2$ به پدرش $X_3$ وابسته است، با $X_7$ نیز در این شرایط وابسته است. 
+
+\item{$X_1 \perp X_5 \ | \ X_2 $}:
+درست است، چرا که دانستن $X_3$ ، استقلال بین $X_2$ و $X_4$ را ایجاد می‌کند و بنابر این از فرزندان $X_2$ یعنی $X_5$ نیز مستقل می‌شویم. 
+
+\subsubsection{ \lr{Markov Blanket for $X_3$} }
+برای این کار ابتدا جهت‌ها را حذف می‌کنیم و سپس فساد\LTRfootnote{ Immorality} ها را حذف می‌کنیم. یعنی نباید گره‌ای باشد که والد یکی از فرزندان همین گره باشد، در صورت وجود به آن گره وصل می‌کنیم تا فساد از بین برود. به تمامی اتصالات موجود نیز وصل می‌کنیم، بنا بر این
+$MB(X_3) = \lbrace X_1 , X_2 , X_4 , X_7 \rbrace $
+خواهد بود. 
+\end{itemize}
+
+\section{بخش پیاده‌سازی}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document} 

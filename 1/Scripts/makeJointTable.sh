@@ -15,7 +15,7 @@ then
 fi
 
 
-#echo "Making joint probability of $querySorted ..." 
+echo "Making joint probability of $querySorted ..." 
 
 rm -rf ./joints/"$querySorted.joint"
 rm -rf ./temp/*
