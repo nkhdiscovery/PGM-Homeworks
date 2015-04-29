@@ -18,12 +18,9 @@ for i in `cat $varsDIR/$cond.var | tr ',' '\n' `
 do
     py=1 #this is Pai in roman, multiples ... 
 
-    echo "$evidence" 
-
     for j in `echo "$evidence" | tr ',' '\n'`
     do
-       #pj=`./cpdQuery.sh ./CPD/"${j%=*}"-"$cond"-1.cpd "${j#*=}","$i"`
-       pj=1
+       pj=`./cpdQuery.sh ./CPD/"${j%=*}"-"$cond"-1.cpd "${j#*=}","$i"`
        py=`echo $py*$pj | bc -l `
     done
 
