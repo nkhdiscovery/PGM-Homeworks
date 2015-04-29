@@ -31,3 +31,5 @@ do
     parent=`echo $edge | cut -d' ' -f1`
     ./createCPD.sh "$child|$parent" "$DB" "$varsDefine" "$varsDIR"
 done < "$BN"
+
+rm -rf ./temp/  

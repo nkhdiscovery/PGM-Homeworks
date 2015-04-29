@@ -21,8 +21,9 @@ rm -rf ./CPD/"$queryVar-$conditions".cpd
 ./makeJointTable.sh "$queryVar,$conditions" "$DB" "$varsDefine" "$varsDIR"
 
 sortedAll=`echo $queryVar,$conditions | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g' `
+sortedDueCols="$(echo $1| tr ',' '\n' | while read a ; do col=`grep $a "$varsDefine" | cut -d':' -f2` ; echo $a $col ; done | sort -g -t' ' -k2 | cut -d' ' -f1 | tr '\n' ',' | sed 's/,$//g')"
 
-qIndex=`echo $sortedAll | tr ',' ' ' | grep -o ".*$queryVar" | wc -w`
+qIndex=`echo $sortedDueCols | tr ',' ' ' | grep -o ".*$queryVar" | wc -w`
 
 
 queryValues="`cat $varsDIR/$queryVar.var | tr ',' '\n' `"
@@ -32,6 +33,7 @@ do
     pJointAll=`./probQuery.sh "$sortedAll" "$i"`
     conDitionValue=`echo $i | cut -d, -f$qIndex --complement`
     pCondition=`./probQuery.sh "$conditions" "$conDitionValue"`
+    echo "pjointAll: $pJointAll - conVal: $conDitionValue - pcon: $pCondition"
 
     # I removed this due to performance, I hope it never happens ! :D I handled enough in probQuery.sh
 #    if [[ `echo $pCondition'=='0.0 | bc -l` -eq 1 ]] 

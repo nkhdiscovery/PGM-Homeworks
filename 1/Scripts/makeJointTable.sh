@@ -9,6 +9,7 @@ querySorted=$(echo $1 | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g' )
 
 if [[ -e ./joints/"$1.joint" ]]
 then
+    echo "Joint table for $1 exists , skipping ..."
     exit 0
 fi
 
