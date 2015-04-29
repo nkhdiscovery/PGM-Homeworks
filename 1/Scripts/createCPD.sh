@@ -17,18 +17,18 @@ then
     exit 0
 fi
 
-echo "Making CPD for ($queryVar|$sortedCon) "
+#echo "Making CPD for ($queryVar|$sortedCon) "
 
 mkdir ./CPD/ 2> /dev/null
 rm -rf ./CPD/"$queryVar-$sortedCon"-$qIndex.cpd
-
+#echo $(($(date +%s%N)/1000000))
 ./makeJointTable.sh "$sortedCon" "$DB" "$varsDefine" "$varsDIR"
 
 #sorting will be handled there
 ./makeJointTable.sh "$queryVar,$sortedCon" "$DB" "$varsDefine" "$varsDIR"
 
 queryValues="`cat $varsDIR/$queryVar.var | tr ',' '\n' `"
-
+#echo $(($(date +%s%N)/1000000))
 for i in `./combineVars.sh $sortedAll $varsDIR $varsDefine`
 do
     pJointAll=`grep "$i" ./joints/"$sortedAll.joint" | cut -d' ' -f2 `

@@ -18,10 +18,14 @@ do
     orig=`echo $tmpline | cut -d':' -f2`
     p2=`./fullObserveQuery.sh $i "$DB" "$varsDefine" "$varsDIR" 2`
     argMax=`echo $p1 $p2 | awk '{printf "%d\n", $1 < $2 ? 2 : 1}'`
-    count=`echo $argMax $orig $count | awk '{printf "%d\n" , $argMax == $orig ? $3+1 : $3 }'`
+    if [[ "$argMax" -eq "$orig" ]]
+    then
+        ((++count))
+    fi 
+    echo max:$argMax orig:$orig $count - p1:$p1 p2:$p2
 done
 
-echo $count
+echo $count > ./count.log
 
 
 

@@ -15,7 +15,7 @@ isPrior()
     local ans=`cat "$BN" | cut -d' ' -f2 | grep $1`
     echo $ans
 }
-
+#echo $(($(date +%s%N)/1000000))
 for var in $vars
 do
     if [[ -z $(isPrior $var) ]]   
@@ -24,7 +24,7 @@ do
        ./makeJointTable.sh "$var" "$DB" "$varsDefine" "$varsDIR"
     fi
 done
-
+#echo $(($(date +%s%N)/1000000))
 while read edge
 do
     child=`echo $edge | cut -d' ' -f2`
