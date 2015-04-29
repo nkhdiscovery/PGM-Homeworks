@@ -11,7 +11,7 @@ tempcond=`echo $fullQ | cut -d'|' -f2`
 cond="`echo ${tempcond%=*}`"
 originalCondVal="`echo ${tempcond#*=}`"
 condVal="$5"
-echo "original data has $cond with value $originalCondVal"
+echo "original $cond:$originalCondVal"
 sigma=0
 nominator=0
 for i in `cat $varsDIR/$cond.var | tr ',' '\n' `
@@ -23,15 +23,17 @@ do
        py=`echo $py*$pj | bc -l `
     done
     pi=`./probQuery.sh $cond $i`
-    py=`echo $py*$pi`
+    py=`echo $py*$pi | bc -l`
     if [[ "$i" -eq "$condVal" ]] 
     then
         nominator="$py"
-        echo $i and $condVal is same
+        #echo $i is noinator: $py
     fi
     sigma=`echo $sigma+$py | bc -l`
+    #echo Pi: $py
+    #echo sigma: $sigma
 done
-echo "$nominator/$sigma" | bc -l 
+printf "%.9f\n" "$(echo "$nominator/$sigma" | bc -l )"
 
 
 
