@@ -5,11 +5,12 @@ varsDefine="$3"
 varsDIR="$4"
 
 mkdir joints temp 2>/dev/null
-querySorted=$(echo $1 | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g' )
 
-if [[ -e ./joints/"$1.joint" ]]
+querySorted="$(echo $1| tr ',' '\n' | while read a ; do col=`grep $a "$varsDefine" | cut -d':' -f2` ; echo $a $col ; done | sort -g -t' ' -k2 | cut -d' ' -f1 | tr '\n' ',' | sed 's/,$//g')"
+
+if [[ -e ./joints/"$querySorted.joint" ]]
 then
-    echo "Joint table for $1 exists , skipping ..."
+    echo "Joint table for $querySorted exists , skipping ..."
     exit 0
 fi
 
@@ -24,7 +25,7 @@ while read a
 do 
     columnMap[$a]=$(grep "$a" "$varsDefine" | cut -d':' -f2)
     cols="$cols,${columnMap[$a]}"
-done < <(echo $querySorted | tr ',' '\n' | sort -g) 
+done < <(echo $querySorted | tr ',' '\n' ) 
 cols=`echo $cols | sed 's/^,//g'`
 
 cat $DB | cut -d, -f$cols > ./temp/"$querySorted.cut"

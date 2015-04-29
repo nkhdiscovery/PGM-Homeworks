@@ -1,38 +1,39 @@
 export queryVar=`echo $1 | cut -d'|' -f1`
-export conditions=`echo "$1" | cut -d'|' -f2 | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g'`
+export conditions=`echo "$1" | cut -d'|' -f2`
+
 DB="$2"
 varsDefine="$3"
 varsDIR="$4"
 
-if [[ -e ./CPD/"$queryVar-$conditions".cpd ]]
+sortedCon="$(echo "$conditions" | tr ',' '\n' | while read a ; do  col=`grep $a $varsDefine | cut -d':' -f2` ; echo $a $col ; done | sort -g -t' ' -k2 | cut -d' ' -f1 | tr '\n' ',' | sed 's/,$//g')"
+
+if [[ -e ./CPD/"$queryVar-$sortedCon".cpd ]]
 then
-    echo "CPD for ($queryVar|$conditions) exists ... skipping"
+    echo "CPD for ($queryVar|$sortedCon) exists ... skipping"
     exit 0
 fi
 
-echo "Making CPD for ($queryVar|$conditions) "
+echo "Making CPD for ($queryVar|$sortedCon) "
 
 mkdir ./CPD/ 2> /dev/null
-rm -rf ./CPD/"$queryVar-$conditions".cpd
+rm -rf ./CPD/"$queryVar-$sortedCon".cpd
 
-./makeJointTable.sh "$conditions" "$DB" "$varsDefine" "$varsDIR"
+./makeJointTable.sh "$sortedCon" "$DB" "$varsDefine" "$varsDIR"
 
 #sorting will be handled there
 ./makeJointTable.sh "$queryVar,$conditions" "$DB" "$varsDefine" "$varsDIR"
 
-sortedAll=`echo $queryVar,$conditions | tr ',' '\n' | sort -g | tr '\n' ',' | sed 's/,$//g' `
-sortedDueCols="$(echo $1| tr ',' '\n' | while read a ; do col=`grep $a "$varsDefine" | cut -d':' -f2` ; echo $a $col ; done | sort -g -t' ' -k2 | cut -d' ' -f1 | tr '\n' ',' | sed 's/,$//g')"
+sortedAll="$(echo $queryVar,$conditions | tr ',' '\n' | while read a ; do col=`grep $a "$varsDefine" | cut -d':' -f2` ; echo $a $col ; done | sort -g -t' ' -k2 | cut -d' ' -f1 | tr '\n' ',' | sed 's/,$//g')"
 
-qIndex=`echo $sortedDueCols | tr ',' ' ' | grep -o ".*$queryVar" | wc -w`
-
+qIndex=`echo $sortedAll | tr ',' ' ' | grep -o ".*$queryVar" | wc -w`
 
 queryValues="`cat $varsDIR/$queryVar.var | tr ',' '\n' `"
 
 for i in `./combineVars.sh $sortedAll $varsDIR $varsDefine`
 do
-    pJointAll=`./probQuery.sh "$sortedAll" "$i"`
+    pJointAll=`grep "$i" ./joints/"$sortedAll.joint" | cut -d' ' -f2 `
     conDitionValue=`echo $i | cut -d, -f$qIndex --complement`
-    pCondition=`./probQuery.sh "$conditions" "$conDitionValue"`
+    pCondition=`./probQuery.sh "$sortedCon" "$conDitionValue"`
     echo "pjointAll: $pJointAll - conVal: $conDitionValue - pcon: $pCondition"
 
     # I removed this due to performance, I hope it never happens ! :D I handled enough in probQuery.sh
