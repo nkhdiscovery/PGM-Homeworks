@@ -10,7 +10,7 @@ querySorted="$(echo $1| tr ',' '\n' | while read a ; do col=`grep $a "$varsDefin
 
 if [[ -e ./joints/"$querySorted.joint" ]]
 then
-    echo "Joint table for $querySorted exists , skipping ..."
+    #echo "Joint table for $querySorted exists , skipping ..."
     exit 0
 fi
 
@@ -35,7 +35,7 @@ total=`wc -l "$DB" | cut -d' ' -f1`
 while read jointEvent
 do
     count=`grep "$jointEvent" ./temp/"$querySorted.cut" | wc -l| cut -d' ' -f1`
-    echo $count is count for $jointEvent
+    #echo $count is count for $jointEvent
     echo -n "$jointEvent" >> ./joints/"$querySorted.joint"
     printf " %.9f\n" "$(echo "$count/$total" | bc -l)" >>  ./joints/"$querySorted.joint"
 done < <(./combineVars.sh $querySorted $varsDIR $varsDefine | tr ' ' '\n' )

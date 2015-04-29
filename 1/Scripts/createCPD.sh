@@ -13,7 +13,7 @@ qIndex=`echo $sortedAll | tr ',' ' ' | grep -o ".*$queryVar" | wc -w`
 
 if [[ -e ./CPD/"$queryVar-$sortedCon"-$qIndex.cpd ]]
 then
-    echo "CPD for ($queryVar|$sortedCon) exists ... skipping"
+#    echo "CPD for ($queryVar|$sortedCon) exists ... skipping"
     exit 0
 fi
 
@@ -34,7 +34,7 @@ do
     pJointAll=`grep "$i" ./joints/"$sortedAll.joint" | cut -d' ' -f2 `
     conDitionValue=`echo $i | cut -d, -f$qIndex --complement`
     pCondition=`./probQuery.sh "$sortedCon" "$conDitionValue"`
-    echo "pjointAll: $pJointAll - conVal: $conDitionValue - pcon: $pCondition"
+#    echo "pjointAll: $pJointAll - conVal: $conDitionValue - pcon: $pCondition"
 
     # I removed this due to performance, I hope it never happens ! :D I handled enough in probQuery.sh
 #    if [[ `echo $pCondition'=='0.0 | bc -l` -eq 1 ]] 
