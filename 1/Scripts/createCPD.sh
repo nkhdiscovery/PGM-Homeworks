@@ -27,7 +27,7 @@ qIndex=`echo $sortedAll | tr ',' ' ' | grep -o ".*$queryVar" | wc -w`
 
 queryValues="`cat $varsDIR/$queryVar.var | tr ',' '\n' `"
 
-for i in `./combineVars.sh $sortedAll $varsDIR`
+for i in `./combineVars.sh $sortedAll $varsDIR $varsDefine`
 do
     pJointAll=`./probQuery.sh "$sortedAll" "$i"`
     conDitionValue=`echo $i | cut -d, -f$qIndex --complement`

@@ -33,6 +33,7 @@ total=`wc -l "$DB" | cut -d' ' -f1`
 while read jointEvent
 do
     count=`grep "$jointEvent" ./temp/"$querySorted.cut" | wc -l| cut -d' ' -f1`
+    echo $count is count for $jointEvent
     echo -n "$jointEvent" >> ./joints/"$querySorted.joint"
     printf " %.9f\n" "$(echo "$count/$total" | bc -l)" >>  ./joints/"$querySorted.joint"
-done < <(./combineVars.sh $querySorted $varsDIR | tr ' ' '\n' )
+done < <(./combineVars.sh $querySorted $varsDIR $varsDefine | tr ' ' '\n' )

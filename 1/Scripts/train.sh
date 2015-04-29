@@ -1,6 +1,6 @@
 ##################################################################################################
 ##
-## first argument: Vars.define , second: Database.csv , third: BN.bn
+## first argument: Vars.define , second: Database.csv , third: BN.bn , forth: varsDIR to *.var files
 ##
 
 vars=`cat $1 | cut -d':' -f1`
