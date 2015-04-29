@@ -13,7 +13,9 @@ do
     cat "$DB" | sed '3d' > ./tmp-data/one.out
     echo $line
     ./train.sh "$varsDefine"  ./tmp-data/one.out "$BN" "$varsDIR"
+    
     tmpline=`./fullObserveQuery.sh $i "$DB" "$varsDefine" "$varsDIR" 1`
+
     p1=`echo $tmpline | cut -d' ' -f1`
     orig=`echo $tmpline | cut -d':' -f2`
     p2=`./fullObserveQuery.sh $i "$DB" "$varsDefine" "$varsDIR" 2`

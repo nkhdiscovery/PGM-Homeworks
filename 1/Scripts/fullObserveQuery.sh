@@ -3,7 +3,6 @@ DB="$2"
 varsDefine="$3"
 varsDIR="$4"
 ourObserve="$5"
-
 fullQ=`./makeNthQuery.sh $DB $lineNum $varsDefine`
 evidence=`echo $fullQ | cut -d'|' -f1`
 
@@ -14,15 +13,22 @@ condVal="$5"
 #echo "original $cond:$originalCondVal"
 sigma=0
 nominator=0
+
 for i in `cat $varsDIR/$cond.var | tr ',' '\n' `
 do
     py=1 #this is Pai in roman, multiples ... 
-    for j in `echo $evidence| tr ',' '\n' `
+
+    echo "$evidence" 
+
+    for j in `echo "$evidence" | tr ',' '\n'`
     do
-       pj=`./cpdQuery.sh ./CPD/"${j%=*}"-"$cond"-1.cpd "${j#*=}","$i"`
+       #pj=`./cpdQuery.sh ./CPD/"${j%=*}"-"$cond"-1.cpd "${j#*=}","$i"`
+       pj=1
        py=`echo $py*$pj | bc -l `
     done
+
     pi=`./probQuery.sh $cond $i`
+    
     py=`echo $py*$pi | bc -l`
     if [[ "$i" -eq "$condVal" ]] 
     then
